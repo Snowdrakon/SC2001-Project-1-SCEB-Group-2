@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+int comparision = 0;
 void merge(int arr[], int left_arr1, int right_arr1, int left_arr2, int right_arr2){
   int res[right_arr2 - left_arr1 + 1]; // array store elements after merge
   int pointer1, pointer2;
@@ -16,6 +17,7 @@ void merge(int arr[], int left_arr1, int right_arr1, int left_arr2, int right_ar
       pointer2++;
     }
     index++;
+    comparision++;
   }
   if(pointer1 > right_arr1){
     while(pointer2 <= right_arr2){
@@ -51,7 +53,7 @@ void mergesort(int arr[], int left, int right){
 int main() {
   srand(time(NULL));  
   int size;
-  for(int i = 1000; i <= 1000000; i *= 10){
+  for(int i = 1000; i <= 10000000; i *= 10){
     size = i;
     int array[size];
     int maxval;
@@ -67,7 +69,10 @@ int main() {
       printf("%d " , array[i]);
     }    
     */
-    printf("%d", )
+    
+    printf("The key comparision is: %d\n", comparision);
+    comparision = 0;
   }
   return 0;
 }
+
