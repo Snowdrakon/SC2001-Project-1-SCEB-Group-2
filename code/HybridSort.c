@@ -1,9 +1,10 @@
 #include <stdio.h>
-
-// To execute C, please define "int main()"
+#include <time.h>
+#include <stdlib.h>
+int comparision = 0;
 void insertion_sort(int arr[], int size, int left){
   for(int i = 1; i < size; i++){
-    for(int j = i; j >=0; j--){
+    for(int j = i; j > 0; j--){
       if(arr[left + j] < arr[left + j - 1]){
         int temp = arr[left + j - 1];
         arr[left + j - 1] = arr[left + j];
@@ -30,6 +31,7 @@ void merge(int arr[], int left_arr1, int right_arr1, int left_arr2, int right_ar
       pointer2++;
     }
     index++;
+    comparision++;
   }
   if(pointer1 > right_arr1){
     while(pointer2 <= right_arr2){
@@ -67,23 +69,30 @@ void hybridSort(int arr[], int left, int right, int threshold){
 }
 
 int main() {
+  srand(time(NULL)); 
   int size;
-  int threshold;
-  scanf("%d", &threshold);
-  scanf("%d", &size);
-  int array[size];
-  for(int i = 0; i < size; i++){
-    scanf("%d", &array[i]);
-  }
-  if(size <= threshold){
-    insertion_sort(array, size, 0);
-  }
-  else{
+  for(int i = 1000; i <= 10000000; i *= 10){
+    int threshold;
+    size = i;
+    int array[size];
+    int maxval;
+    printf("Input the maximum possible value for elements in the array: ");
+    scanf("%d", &maxval);
+    printf("Input value of threshold: ");
+    scanf("%d", &threshold);
+    for(int j = 0; j < size; j++){ 
+      int r = rand()%maxval; 
+      array[j] = r;
+    }
     hybridSort(array, 0,  size-1, threshold);
-  }
-
-  for(int i = 0; i < size; i++){
-    printf("%d " , array[i]);
+    /*
+    for(int i = 0; i < size; i++){
+      printf("%d " , array[i]);
+    }    
+    */
+    
+    printf("The key comparision is: %d\n", comparision);
+    comparision = 0;
   }
   return 0;
 }
