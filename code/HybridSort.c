@@ -9,6 +9,7 @@ void insertion_sort(int arr[], int size, int left){
         int temp = arr[left + j - 1];
         arr[left + j - 1] = arr[left + j];
         arr[left + j] = temp;
+        comparision++;
       }
       else{
         break;
@@ -19,7 +20,8 @@ void insertion_sort(int arr[], int size, int left){
 void merge(int arr[], int left_arr1, int right_arr1, int left_arr2, int right_arr2){
   int res[right_arr2 - left_arr1 + 1]; // array store elements after merge
   int pointer1, pointer2;
-  pointer1 = left_arr1, pointer2 = left_arr2;
+  pointer1 = left_arr;
+  pointer2 = left_arr2;
   int index = 0;
   while(pointer1 <= right_arr1 && pointer2 <= right_arr2 ){
     if(arr[pointer1] <= arr[pointer2]){
