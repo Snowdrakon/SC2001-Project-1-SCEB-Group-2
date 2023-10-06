@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <limits.h>
+#include <time.h>
+
+#define V_MAX 100 // Maximum number of vertices
+#define E_MAX (V_MAX * (V_MAX - 1) / 2) // Maximum number of edges for a complete graph
+
+int graph[V_MAX][V_MAX]; // Adjacency matrix to represent the graph
+int dist[V_MAX];         // Array to store the shortest distances
+bool visited[V_MAX];     // Array to keep track of visited vertices
+
+// Function to find the vertex with the minimum distance
+int minDistance() {
+    int min = INT_MAX, min_index;
+
+    for (int v = 0; v < V_MAX; v++) {
+        if (!visited[v] && dist[v] < min) {
+            min = dist[v];
+            min_index = v;
+        }
+    }
+
+    return min_index;
+}
+
+// Function to implement Dijkstra's algorithm
+void dijkstra(int src) {
+    for (int i = 0; i < V_MAX; i++) {
+        dist[i] = INT_MAX;
+        visited[i] = false;
+    }
+
+    dist[src] = 0;
+
+    for (int count = 0; count < V_MAX - 1; count++) {
+        int u = minDistance();
+        visited[u] = true;
+
+        for (int v = 0; v < V_MAX; v++) {
+            if (!visited[v] && graph[u][v] && dist[u] != INT_MAX &&
+                dist[u] + graph[u][v] < dist[v]) {
+                dist[v] = dist[u] + graph[u][v];
+            }
+        }
+    }
+}
+
+int main() {
+    clock_t start, end;
+    double cpu_time_used;
+
+    // Loop over different graph sizes and edge densities
+    for (int V = 10; V <= V_MAX; V += 10) {
+        // Initialize the graph (for simplicity, create a complete graph)
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                if (i != j) {
+                    graph[i][j] = rand() % 100; // Assign random edge weights
+                } else {
+                    graph[i][j] = 0; // No self-loops
+                }
+            }
+        }
+
+        int source = 0; // Set the source vertex
+
+        start = clock();
+        dijkstra(source);
+        end = clock();
+
+        cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+        printf("V=%d, E=%d, Time: %f seconds\n", V, V * (V - 1) / 2, cpu_time_used);
+    }
+
+    return 0;
+}
